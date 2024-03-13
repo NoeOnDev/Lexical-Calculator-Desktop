@@ -10,7 +10,7 @@ def calcular(operacion):
         messagebox.showerror("Error", str(e))
 
 def crear_boton(texto, comando):
-    return tk.Button(ventana, text=texto, command=comando, width=5, height=2)
+    return tk.Button(ventana, text=texto, command=comando, width=5, height=5)
 
 ventana = tk.Tk()
 ventana.title("Calculadora")
