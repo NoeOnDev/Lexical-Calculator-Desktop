@@ -28,7 +28,7 @@ ventana.geometry("800x600")
 ventana.resizable(0, 0)
 
 frame_calculadora = tk.Frame(ventana)
-frame_calculadora.place(relx=0.5, rely=0.5, anchor='center')
+frame_calculadora.place(relx=0.5, rely=0.5, anchor='se')
 
 resultado = tk.StringVar()
 entrada = tk.Entry(frame_calculadora, textvariable=resultado, width=20, font=('arial', 20, 'bold'), state='readonly', fg='black')
@@ -48,7 +48,7 @@ crear_boton("4", lambda: resultado.set(resultado.get() + '4')).grid(row=3, colum
 crear_boton("5", lambda: resultado.set(resultado.get() + '5')).grid(row=3, column=1)
 crear_boton("6", lambda: resultado.set(resultado.get() + '6')).grid(row=3, column=2)
 crear_boton("-", lambda: resultado.set(resultado.get() + '-')).grid(row=3, column=3)
-crear_boton("Limpiar", limpiar).grid(row=3, column=4)
+crear_boton("C", limpiar).grid(row=3, column=4)
 
 crear_boton("7", lambda: resultado.set(resultado.get() + '7')).grid(row=4, column=0)
 crear_boton("8", lambda: resultado.set(resultado.get() + '8')).grid(row=4, column=1)
