@@ -19,17 +19,23 @@ def limpiar():
     resultado_operacion.set('')
 
 def crear_boton(texto, comando):
-    return tk.Button(ventana, text=texto, command=comando, width=5, height=2)
+    return tk.Button(frame_calculadora, text=texto, command=comando, width=5, height=2)
 
 ventana = tk.Tk()
 ventana.title("Calculadora")
 
+ventana.geometry("800x600")
+ventana.resizable(0, 0)
+
+frame_calculadora = tk.Frame(ventana)
+frame_calculadora.place(relx=0.5, rely=0.5, anchor='center')
+
 resultado = tk.StringVar()
-entrada = tk.Entry(ventana, textvariable=resultado, width=20, font=('arial', 20, 'bold'), state='readonly', fg='black')
+entrada = tk.Entry(frame_calculadora, textvariable=resultado, width=20, font=('arial', 20, 'bold'), state='readonly', fg='black')
 entrada.grid(row=0, column=0, columnspan=5)
 
 resultado_operacion = tk.StringVar()
-entrada_operacion = tk.Entry(ventana, textvariable=resultado_operacion, width=20, font=('arial', 20, 'bold'), state='readonly', fg='green')
+entrada_operacion = tk.Entry(frame_calculadora, textvariable=resultado_operacion, width=20, font=('arial', 20, 'bold'), state='readonly', fg='green')
 entrada_operacion.grid(row=1, column=0, columnspan=5)
 
 crear_boton("1", lambda: resultado.set(resultado.get() + '1')).grid(row=2, column=0)
