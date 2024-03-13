@@ -4,7 +4,6 @@ from tkinter import messagebox
 def calcular(operacion):
     try:
         resultado_operacion.set(eval(operacion))
-        resultado.set('')
     except ZeroDivisionError:
         messagebox.showerror("Error", "División por cero no está permitida.")
     except Exception as e:
@@ -26,11 +25,11 @@ ventana = tk.Tk()
 ventana.title("Calculadora")
 
 resultado = tk.StringVar()
-entrada = tk.Entry(ventana, textvariable=resultado, width=20, font=('arial', 20, 'bold'), state='disabled')
+entrada = tk.Entry(ventana, textvariable=resultado, width=20, font=('arial', 20, 'bold'), state='readonly', fg='black')
 entrada.grid(row=0, column=0, columnspan=5)
 
 resultado_operacion = tk.StringVar()
-entrada_operacion = tk.Entry(ventana, textvariable=resultado_operacion, width=20, font=('arial', 20, 'bold'), state='disabled')
+entrada_operacion = tk.Entry(ventana, textvariable=resultado_operacion, width=20, font=('arial', 20, 'bold'), state='readonly', fg='green')
 entrada_operacion.grid(row=1, column=0, columnspan=5)
 
 crear_boton("1", lambda: resultado.set(resultado.get() + '1')).grid(row=2, column=0)
