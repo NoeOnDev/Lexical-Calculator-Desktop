@@ -29,7 +29,9 @@ def analizar(operacion):
         tok = lexer.token()
         if not tok:
             break
+        print('-'*50)
         print(f"Token: {tok.type}, Valor: {tok.value}")
+        print('-'*50)
         resultado.append(f"{tok.type}: {tok.value}")
     return '\n'.join(resultado)
 
