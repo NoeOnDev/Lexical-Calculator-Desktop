@@ -21,9 +21,20 @@ def t_error(t):
 
 lexer = lex.lex()
 
+def analizar(operacion):
+    lexer.input(operacion)
+    resultado = []
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        resultado.append(str(tok))
+    return '\n'.join(resultado)
+
 def calcular(operacion):
     try:
         resultado_operacion.set(eval(operacion))
+        resultado_lexico.set(analizar(operacion))
     except ZeroDivisionError:
         messagebox.showerror("Error", "División por cero no está permitida.")
     except Exception as e:
@@ -57,6 +68,10 @@ entrada.grid(row=0, column=0, columnspan=5)
 resultado_operacion = tk.StringVar()
 entrada_operacion = tk.Entry(frame_calculadora, textvariable=resultado_operacion, width=20, font=('arial', 20, 'bold'), state='readonly', fg='green')
 entrada_operacion.grid(row=1, column=0, columnspan=5)
+
+resultado_lexico = tk.StringVar()
+entrada_lexico = tk.Entry(frame_calculadora, textvariable=resultado_lexico, width=20, font=('arial', 20, 'bold'), state='readonly', fg='blue')
+entrada_lexico.grid(row=2, column=0, columnspan=5)
 
 crear_boton("1", lambda: resultado.set(resultado.get() + '1')).grid(row=2, column=0)
 crear_boton("2", lambda: resultado.set(resultado.get() + '2')).grid(row=2, column=1)
