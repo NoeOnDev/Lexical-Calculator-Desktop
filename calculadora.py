@@ -9,9 +9,10 @@ t_TIMES = r'\*'
 t_DIVIDE = r'/'
 
 def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
+    r'\d+(\.\d+)?'
+    t.value = float(t.value)
     return t
+
 
 t_ignore = ' \t'
 
@@ -28,8 +29,10 @@ def analizar(operacion):
         tok = lexer.token()
         if not tok:
             break
-        resultado.append(str(tok))
+        print(f"Token: {tok.type}, Valor: {tok.value}")
+        resultado.append(f"{tok.type}: {tok.value}")
     return '\n'.join(resultado)
+
 
 def calcular(operacion):
     try:
@@ -39,6 +42,7 @@ def calcular(operacion):
         messagebox.showerror("Error", "División por cero no está permitida.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
+
 
 def eliminar():
     texto = resultado.get()
