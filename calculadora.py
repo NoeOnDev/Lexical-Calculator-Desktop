@@ -53,9 +53,10 @@ def eliminar():
 def limpiar():
     resultado.set("")
     resultado_operacion.set('')
+    resultado_lexico.set('')
 
 def crear_boton(texto, comando):
-    return tk.Button(frame_calculadora, text=texto, command=comando, width=5, height=2)
+    return tk.Button(frame_calculadora, text=texto, command=comando, width=5, height=2 , font=('arial', 10, 'bold'))
 
 ventana = tk.Tk()
 ventana.title("Calculadora")
