@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 import ply.lex as lex
-import ply.yacc as yacc
 
 tokens = ('NUMBER', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE')
 t_PLUS = r'\+'
@@ -17,38 +16,24 @@ def t_NUMBER(t):
 
 t_ignore = ' \t'
 
-precedence = (
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIVIDE'),
-    ('nonassoc', 'UMINUS'),
-)
-
-def p_expression_binop(t):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
-                  | expression TIMES expression
-                  | expression DIVIDE expression'''
-    t[0] = (t[2], t[1], t[3])
-
-def p_expression_uminus(t):
-    'expression : MINUS expression %prec UMINUS'
-    t[0] = ('-', t[2])
-
-def p_expression_number(t):
-    'expression : NUMBER'
-    t[0] = t[1]
-
 def t_error(t):
     print(f"Illegal character '{t.value[0]}'")
     t.lexer.skip(1)
 
 lexer = lex.lex()
-parser = yacc.yacc()
 
 def analizar(operacion):
     lexer.input(operacion)
-    resultado = parser.parse(operacion)
-    return resultado
+    resultado = []
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        print('-'*50)
+        print(f"Token: {tok.type}, Valor: {tok.value}")
+        print('-'*50)
+        resultado.append(f"'{tok.value}'")
+    return ' '.join(resultado)
 
 def calcular(operacion):
     try:
