@@ -28,7 +28,8 @@ def t_error(t):
 lexer = lex.lex()
 
 def analizar(operacion):
-    lexer.input(operacion)
+    operacion_preprocesada = preprocess_input(operacion)
+    lexer.input(operacion_preprocesada)
     resultado = []
     while True:
         tok = lexer.token()
