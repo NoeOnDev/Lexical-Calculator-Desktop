@@ -101,7 +101,7 @@ entrada_lexico.grid(row=2, column=0, columnspan=5)
 scrollbar = tk.Scrollbar(frame_calculadora)
 scrollbar.grid(row=3, column=5, sticky='ns')
 
-historial_operaciones = tk.Text(frame_calculadora, width=45, height=10, font=('arial', 12), state='disabled', yscrollcommand=scrollbar.set)
+historial_operaciones = tk.Text(frame_calculadora, width=51, height=5, font=('arial', 12), state='disabled', yscrollcommand=scrollbar.set)
 historial_operaciones.grid(row=3, column=0, columnspan=5, padx=10, pady=10)
 
 scrollbar.config(command=historial_operaciones.yview)
