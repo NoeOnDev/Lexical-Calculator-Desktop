@@ -37,15 +37,30 @@ def analizar(operacion):
         resultado.append(f"{tok.type}('{tok.value}')")
     return ', '.join(resultado)
 
+def preprocess_input(input_str):
+    processed_str = ""
+    for i, char in enumerate(input_str):
+        processed_str += char
+        if char.isdigit() and i + 1 < len(input_str) and input_str[i + 1] == "(":
+            processed_str += "*"
+        elif char == ")" and i + 1 < len(input_str):
+            if input_str[i + 1].isdigit() or input_str[i + 1] == "(":
+                processed_str += "*"
+    return processed_str
+
+
+
 def calcular(operacion):
     try:
-        resultado = eval(operacion)
+        operacion_preprocesada = preprocess_input(operacion)
+        resultado = eval(operacion_preprocesada)
         resultado_operacion.set(resultado)
-        resultado_lexico.set(analizar(operacion))
+        resultado_lexico.set(analizar(operacion_preprocesada))
     except ZeroDivisionError:
         messagebox.showerror("Error", "División por cero no está permitida.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
+
 
 
 def eliminar():
