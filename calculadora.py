@@ -48,19 +48,19 @@ def preprocess_input(input_str):
                 processed_str += "*"
     return processed_str
 
-
-
 def calcular(operacion):
     try:
         operacion_preprocesada = preprocess_input(operacion)
         resultado = eval(operacion_preprocesada)
         resultado_operacion.set(resultado)
         resultado_lexico.set(analizar(operacion_preprocesada))
+        historial_operaciones.config(state='normal')
+        historial_operaciones.insert(tk.END, f"{operacion} = {resultado}\n")
+        historial_operaciones.config(state='disabled')
     except ZeroDivisionError:
         messagebox.showerror("Error", "División por cero no está permitida.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
-
 
 
 def eliminar():
@@ -72,6 +72,7 @@ def limpiar():
     resultado.set("")
     resultado_operacion.set('')
     resultado_lexico.set('')
+    historial_operaciones.delete(1.0, tk.END)
 
 def crear_boton(texto, comando):
     return tk.Button(frame_calculadora, text=texto, command=comando, width=5, height=2 , font=('arial', 10, 'bold'))
@@ -97,11 +98,19 @@ resultado_lexico = tk.StringVar()
 entrada_lexico = tk.Entry(frame_calculadora, textvariable=resultado_lexico, width=35, font=('arial', 18, 'bold'), state='readonly', fg='blue')
 entrada_lexico.grid(row=2, column=0, columnspan=5)
 
+scrollbar = tk.Scrollbar(frame_calculadora)
+scrollbar.grid(row=3, column=5, sticky='ns')
+
+historial_operaciones = tk.Text(frame_calculadora, width=45, height=10, font=('arial', 12), state='disabled', yscrollcommand=scrollbar.set)
+historial_operaciones.grid(row=3, column=0, columnspan=5, padx=10, pady=10)
+
+scrollbar.config(command=historial_operaciones.yview)
+
 botones = [
-    ('7', 3, 0), ('8', 3, 1), ('9', 3, 2), ('+', 3, 3), ('C', 3, 4),
-    ('4', 4, 0), ('5', 4, 1), ('6', 4, 2), ('-', 4, 3), ('Eliminar', 4, 4),
-    ('1', 5, 0), ('2', 5, 1), ('3', 5, 2), ('*', 5, 3),
-    ('0', 6, 0), ('.', 6, 1), ('=', 6, 2), ('/', 6, 3), ('(', 5, 4), (')', 6, 4)
+    ('7', 4, 0), ('8', 4, 1), ('9', 4, 2), ('+', 4, 3), ('C', 4, 4),
+    ('4', 5, 0), ('5', 5, 1), ('6', 5, 2), ('-', 5, 3), ('Eliminar', 5, 4),
+    ('1', 6, 0), ('2', 6, 1), ('3', 6, 2), ('*', 6, 3),
+    ('0', 7, 0), ('.', 7, 1), ('=', 7, 2), ('/', 7, 3), ('(', 6, 4), (')', 7, 4)
 ]
 
 for (texto, fila, columna) in botones:
