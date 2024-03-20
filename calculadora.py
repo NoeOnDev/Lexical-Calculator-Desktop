@@ -123,5 +123,4 @@ for (texto, fila, columna) in botones:
     else:
         crear_boton(texto, comando).grid(row=fila, column=columna)
 
-
 ventana.mainloop()
