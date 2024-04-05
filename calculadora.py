@@ -31,11 +31,15 @@ def analizar(operacion):
     operacion_preprocesada = preprocess_input(operacion)
     lexer.input(operacion_preprocesada)
     resultado = []
+    linea = 1
     while True:
         tok = lexer.token()
         if not tok:
             break
-        resultado.append(f"{tok.type}('{tok.value}')")
+        tipo_dato = tok.type.lower()
+        if tipo_dato == 'number':
+            tipo_dato = 'integer'
+        resultado.append(f"Linea {linea} - Data type: {tipo_dato}, Value: '{tok.value}', Position: {tok.lexpos}")
     return '\n'.join(resultado)
 
 def preprocess_input(input_str):
@@ -52,8 +56,9 @@ def preprocess_input(input_str):
 
 def mostrar_analisis_lexico(resultado_lexico):
     ventana_lexico = tk.Tk()
+    ventana_lexico.geometry("500x500")
     ventana_lexico.title("Análisis Léxico")
-    tk.Label(ventana_lexico, text=resultado_lexico, font=('arial', 18, 'bold')).pack()
+    tk.Label(ventana_lexico, text=resultado_lexico, font=('Helvetica', 12, 'bold')).pack()
     ventana_lexico.mainloop()
 
 def calcular(operacion):
@@ -62,6 +67,10 @@ def calcular(operacion):
         operacion_preprocesada = preprocess_input(operacion)
         resultado = eval(operacion_preprocesada)
         resultado_operacion.set(resultado)
+        entrada_operacion.config(state='normal')
+        entrada_operacion.delete("1.0", tk.END)
+        entrada_operacion.insert(tk.END, str(resultado))
+        entrada_operacion.config(state='disabled')
         resultado_lexico = analizar(operacion_preprocesada)
         mostrar_analisis_lexico(resultado_lexico)
     except ZeroDivisionError:
@@ -77,10 +86,12 @@ def eliminar():
 
 def limpiar():
     entrada.delete("1.0", tk.END)
+    entrada_operacion.config(state='normal')
     entrada_operacion.delete("1.0", tk.END)
+    entrada_operacion.config(state='disabled')
 
 def crear_boton(texto, comando):
-    return tk.Button(frame_calculadora, text=texto, command=comando, width=7, height=2 , font=('arial', 10, 'bold'))
+    return tk.Button(frame_calculadora, text=texto, command=comando, width=7, height=2 , font=('Helvetica', 10, 'bold'))
 
 ventana = tk.Tk()
 ventana.title("Calculadora Léxica")
@@ -92,11 +103,11 @@ frame_calculadora = tk.Frame(ventana)
 frame_calculadora.pack(expand=True)
 
 resultado = tk.StringVar()
-entrada = tk.Text(frame_calculadora, height=2, width=23, font=('arial', 18, 'bold'), state='normal', fg='black')
+entrada = tk.Text(frame_calculadora, height=2, width=23, font=('Helvetica', 18, 'bold'), state='normal', fg='black')
 entrada.grid(row=0, column=0, columnspan=7)
 
 resultado_operacion = tk.StringVar()
-entrada_operacion = tk.Text(frame_calculadora, height=2, width=23, font=('arial', 18, 'bold'), state='disabled', fg='green')
+entrada_operacion = tk.Text(frame_calculadora, height=2, width=23, font=('Helvetica', 18, 'bold'), state='disabled', fg='green')
 entrada_operacion.grid(row=1, column=0, columnspan=7)
 
 botones = [
