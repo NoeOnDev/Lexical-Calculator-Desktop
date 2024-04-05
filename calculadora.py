@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
+from ttkthemes import ThemedTk
 import ply.lex as lex
 
 tokens = (
@@ -55,10 +56,10 @@ def preprocess_input(input_str):
 
 
 def mostrar_analisis_lexico(resultado_lexico):
-    ventana_lexico = tk.Tk()
+    ventana_lexico = ThemedTk(theme="arc")
     ventana_lexico.geometry("500x500")
     ventana_lexico.title("Análisis Léxico")
-    tk.Label(ventana_lexico, text=resultado_lexico, font=('Helvetica', 12, 'bold')).pack()
+    ttk.Label(ventana_lexico, text=resultado_lexico, font=('Helvetica', 12, 'bold')).pack()
     ventana_lexico.mainloop()
 
 def calcular(operacion):
@@ -91,15 +92,15 @@ def limpiar():
     entrada_operacion.config(state='disabled')
 
 def crear_boton(texto, comando):
-    return tk.Button(frame_calculadora, text=texto, command=comando, width=10, height=2 , font=('Helvetica', 10, 'bold'))
+    return ttk.Button(frame_calculadora, text=texto, command=comando, width=10)
 
-ventana = tk.Tk()
+ventana = ThemedTk(theme="arc")
 ventana.title("Calculadora Léxica")
 
 ventana.geometry("400x360")
 ventana.resizable(0, 0)
 
-frame_calculadora = tk.Frame(ventana)
+frame_calculadora = ttk.Frame(ventana)
 frame_calculadora.pack(expand=True)
 
 resultado = tk.StringVar()
