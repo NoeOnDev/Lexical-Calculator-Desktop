@@ -91,23 +91,23 @@ def limpiar():
     entrada_operacion.config(state='disabled')
 
 def crear_boton(texto, comando):
-    return tk.Button(frame_calculadora, text=texto, command=comando, width=7, height=2 , font=('Helvetica', 10, 'bold'))
+    return tk.Button(frame_calculadora, text=texto, command=comando, width=10, height=2 , font=('Helvetica', 10, 'bold'))
 
 ventana = tk.Tk()
 ventana.title("Calculadora Léxica")
 
-ventana.geometry("400x500")
+ventana.geometry("400x360")
 ventana.resizable(0, 0)
 
 frame_calculadora = tk.Frame(ventana)
 frame_calculadora.pack(expand=True)
 
 resultado = tk.StringVar()
-entrada = tk.Text(frame_calculadora, height=2, width=23, font=('Helvetica', 18, 'bold'), state='normal', fg='black')
+entrada = tk.Text(frame_calculadora, height=2, width=30, font=('Helvetica', 18, 'bold'), state='normal', fg='black')
 entrada.grid(row=0, column=0, columnspan=7)
 
 resultado_operacion = tk.StringVar()
-entrada_operacion = tk.Text(frame_calculadora, height=2, width=23, font=('Helvetica', 18, 'bold'), state='disabled', fg='green')
+entrada_operacion = tk.Text(frame_calculadora, height=2, width=30, font=('Helvetica', 18, 'bold'), state='disabled', fg='green')
 entrada_operacion.grid(row=1, column=0, columnspan=7)
 
 botones = [
