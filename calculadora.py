@@ -49,15 +49,20 @@ def preprocess_input(input_str):
                 processed_str += "*"
     return processed_str
 
+
+def mostrar_analisis_lexico(resultado_lexico):
+    ventana_lexico = tk.Tk()
+    ventana_lexico.title("Análisis Léxico")
+    tk.Label(ventana_lexico, text=resultado_lexico, font=('arial', 18, 'bold')).pack()
+    ventana_lexico.mainloop()
+
 def calcular(operacion):
     try:
         operacion_preprocesada = preprocess_input(operacion)
         resultado = eval(operacion_preprocesada)
         resultado_operacion.set(resultado)
-        resultado_lexico.set(analizar(operacion_preprocesada))
-        historial_operaciones.config(state='normal')
-        historial_operaciones.insert(tk.END, f"{operacion} = {resultado}\n")
-        historial_operaciones.config(state='disabled')
+        resultado_lexico = analizar(operacion_preprocesada)
+        mostrar_analisis_lexico(resultado_lexico)
     except ZeroDivisionError:
         messagebox.showerror("Error", "División por cero no está permitida.")
     except Exception as e:
@@ -72,8 +77,6 @@ def eliminar():
 def limpiar():
     resultado.set("")
     resultado_operacion.set('')
-    resultado_lexico.set('')
-    historial_operaciones.delete(1.0, tk.END)
 
 def crear_boton(texto, comando):
     return tk.Button(frame_calculadora, text=texto, command=comando, width=5, height=2 , font=('arial', 10, 'bold'))
@@ -81,7 +84,7 @@ def crear_boton(texto, comando):
 ventana = tk.Tk()
 ventana.title("Calculadora Léxica")
 
-ventana.geometry("800x600+100+100")
+ventana.geometry("400x500")
 ventana.resizable(0, 0)
 
 frame_calculadora = tk.Frame(ventana)
@@ -94,18 +97,6 @@ entrada.grid(row=0, column=0, columnspan=5)
 resultado_operacion = tk.StringVar()
 entrada_operacion = tk.Entry(frame_calculadora, textvariable=resultado_operacion, width=35, font=('arial', 18, 'bold'), state='readonly', fg='green')
 entrada_operacion.grid(row=1, column=0, columnspan=5)
-
-resultado_lexico = tk.StringVar()
-entrada_lexico = tk.Entry(frame_calculadora, textvariable=resultado_lexico, width=35, font=('arial', 18, 'bold'), state='readonly', fg='blue')
-entrada_lexico.grid(row=2, column=0, columnspan=5)
-
-scrollbar = tk.Scrollbar(frame_calculadora)
-scrollbar.grid(row=3, column=5, sticky='ns')
-
-historial_operaciones = tk.Text(frame_calculadora, width=51, height=5, font=('arial', 12), state='disabled', yscrollcommand=scrollbar.set)
-historial_operaciones.grid(row=3, column=0, columnspan=5, padx=10, pady=10)
-
-scrollbar.config(command=historial_operaciones.yview)
 
 botones = [
     ('7', 4, 0), ('8', 4, 1), ('9', 4, 2), ('+', 4, 3), ('C', 4, 4),
