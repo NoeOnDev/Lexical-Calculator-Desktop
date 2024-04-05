@@ -36,7 +36,7 @@ def analizar(operacion):
         if not tok:
             break
         resultado.append(f"{tok.type}('{tok.value}')")
-    return ', '.join(resultado)
+    return '\n'.join(resultado)
 
 def preprocess_input(input_str):
     processed_str = ""
@@ -58,6 +58,7 @@ def mostrar_analisis_lexico(resultado_lexico):
 
 def calcular(operacion):
     try:
+        operacion = operacion.rstrip()
         operacion_preprocesada = preprocess_input(operacion)
         resultado = eval(operacion_preprocesada)
         resultado_operacion.set(resultado)
@@ -107,7 +108,7 @@ botones = [
 ]
 
 for (texto, fila, columna) in botones:
-    comando = lambda x=texto: entrada.insert(tk.END, x) if x != '=' else calcular(entrada.get("1.0", tk.END))
+    comando = lambda x=texto: entrada.insert(tk.END, x) if x != '=' else calcular(entrada.get("1.0", tk.END).rstrip())
     if texto == "Del":
         crear_boton(texto, eliminar).grid(row=fila, column=columna)
     elif texto == "C":
