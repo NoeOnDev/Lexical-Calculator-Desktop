@@ -70,16 +70,16 @@ def calcular(operacion):
 
 
 def eliminar():
-    texto = resultado.get()
-    if texto:
-        resultado.set(texto[:-1])
+    texto = entrada.get("1.0", 'end-2c')
+    entrada.delete("1.0", tk.END)
+    entrada.insert(tk.END, texto)
 
 def limpiar():
-    resultado.set("")
-    resultado_operacion.set('')
+    entrada.delete("1.0", tk.END)
+    entrada_operacion.delete("1.0", tk.END)
 
 def crear_boton(texto, comando):
-    return tk.Button(frame_calculadora, text=texto, command=comando, width=5, height=2 , font=('arial', 10, 'bold'))
+    return tk.Button(frame_calculadora, text=texto, command=comando, width=7, height=2 , font=('arial', 10, 'bold'))
 
 ventana = tk.Tk()
 ventana.title("Calculadora Léxica")
@@ -91,23 +91,24 @@ frame_calculadora = tk.Frame(ventana)
 frame_calculadora.pack(expand=True)
 
 resultado = tk.StringVar()
-entrada = tk.Entry(frame_calculadora, textvariable=resultado, width=35, font=('arial', 18, 'bold'), state='normal', fg='black')
-entrada.grid(row=0, column=0, columnspan=5)
+entrada = tk.Text(frame_calculadora, height=2, width=23, font=('arial', 18, 'bold'), state='normal', fg='black')
+entrada.grid(row=0, column=0, columnspan=7)
 
 resultado_operacion = tk.StringVar()
-entrada_operacion = tk.Entry(frame_calculadora, textvariable=resultado_operacion, width=35, font=('arial', 18, 'bold'), state='readonly', fg='green')
-entrada_operacion.grid(row=1, column=0, columnspan=5)
+entrada_operacion = tk.Text(frame_calculadora, height=2, width=23, font=('arial', 18, 'bold'), state='disabled', fg='green')
+entrada_operacion.grid(row=1, column=0, columnspan=7)
 
 botones = [
-    ('7', 4, 0), ('8', 4, 1), ('9', 4, 2), ('+', 4, 3), ('C', 4, 4),
-    ('4', 5, 0), ('5', 5, 1), ('6', 5, 2), ('-', 5, 3), ('Eliminar', 5, 4),
+    ('C', 2, 0), ('Del', 2, 1), ('(', 2, 2), (')', 2, 3),
+    ('7', 4, 0), ('8', 4, 1), ('9', 4, 2), ('+', 4, 3),
+    ('4', 5, 0), ('5', 5, 1), ('6', 5, 2), ('-', 5, 3),
     ('1', 6, 0), ('2', 6, 1), ('3', 6, 2), ('*', 6, 3),
-    ('0', 7, 0), ('.', 7, 1), ('=', 7, 2), ('/', 7, 3), ('(', 6, 4), (')', 7, 4)
+    ('0', 7, 0), ('.', 7, 1), ('=', 7, 2), ('/', 7, 3),
 ]
 
 for (texto, fila, columna) in botones:
-    comando = lambda x=texto: resultado.set(resultado.get() + x) if x != '=' else calcular(resultado.get())
-    if texto == "Eliminar":
+    comando = lambda x=texto: entrada.insert(tk.END, x) if x != '=' else calcular(entrada.get("1.0", tk.END))
+    if texto == "Del":
         crear_boton(texto, eliminar).grid(row=fila, column=columna)
     elif texto == "C":
         crear_boton(texto, limpiar).grid(row=fila, column=columna)
