@@ -96,7 +96,7 @@ def crear_boton(texto, comando):
 ventana = tk.Tk()
 ventana.title("Calculadora Léxica")
 
-ventana.geometry("400x360")
+ventana.geometry("440x375")
 ventana.resizable(0, 0)
 
 frame_calculadora = tk.Frame(ventana)
