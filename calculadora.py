@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from sympy import *
 import ply.lex as lex
 
 tokens = (
@@ -65,7 +66,7 @@ def calculate(operation):
     try:
         operation = operation.rstrip()
         preprocessed_operation = preprocess_input(operation)
-        result = eval(preprocessed_operation)
+        result = sympify(preprocessed_operation).evalf()
         operation_result.set(result)
         operation_entry.config(state='normal')
         operation_entry.delete("1.0", tk.END)
@@ -77,7 +78,6 @@ def calculate(operation):
         messagebox.showerror("Error", "Division by zero is not allowed.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
-
 
 def delete():
     text = entry.get("1.0", 'end-2c')
