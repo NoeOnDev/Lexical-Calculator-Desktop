@@ -22,25 +22,25 @@ def t_NUMBER(t):
 t_ignore = ' \t'
 
 def t_error(t):
-    messagebox.showerror("Error léxico", f"Carácter ilegal: '{t.value[0]}'")
+    messagebox.showerror("Lexical Error", f"Illegal character: '{t.value[0]}'")
     t.lexer.skip(1)
 
 lexer = lex.lex()
 
-def analizar(operacion):
-    operacion_preprocesada = preprocess_input(operacion)
-    lexer.input(operacion_preprocesada)
-    resultado = []
-    linea = 1
+def analyze(operation):
+    preprocessed_operation = preprocess_input(operation)
+    lexer.input(preprocessed_operation)
+    result = []
+    line = 1
     while True:
         tok = lexer.token()
         if not tok:
             break
-        tipo_dato = tok.type.lower()
-        if tipo_dato == 'number':
-            tipo_dato = 'integer'
-        resultado.append(f"Linea {linea} - Data type: {tipo_dato}, Value: '{tok.value}', Position: {tok.lexpos}")
-    return '\n'.join(resultado)
+        data_type = tok.type.lower()
+        if data_type == 'number':
+            data_type = 'integer'
+        result.append(f"Line {line} - Data type: {data_type}, Value: '{tok.value}', Position: {tok.lexpos}")
+    return '\n'.join(result)
 
 def preprocess_input(input_str):
     processed_str = ""
@@ -54,63 +54,63 @@ def preprocess_input(input_str):
     return processed_str
 
 
-def mostrar_analisis_lexico(resultado_lexico):
-    ventana_lexico = tk.Tk()
-    ventana_lexico.geometry("500x500")
-    ventana_lexico.title("Análisis Léxico")
-    tk.Label(ventana_lexico, text=resultado_lexico, font=('Helvetica', 12, 'bold')).pack()
-    ventana_lexico.mainloop()
+def show_lexical_analysis(lexical_result):
+    lexical_window = tk.Tk()
+    lexical_window.geometry("500x500")
+    lexical_window.title("Lexical Analysis")
+    tk.Label(lexical_window, text=lexical_result, font=('Helvetica', 12, 'bold')).pack()
+    lexical_window.mainloop()
 
-def calcular(operacion):
+def calculate(operation):
     try:
-        operacion = operacion.rstrip()
-        operacion_preprocesada = preprocess_input(operacion)
-        resultado = eval(operacion_preprocesada)
-        resultado_operacion.set(resultado)
-        entrada_operacion.config(state='normal')
-        entrada_operacion.delete("1.0", tk.END)
-        entrada_operacion.insert(tk.END, str(resultado))
-        entrada_operacion.config(state='disabled')
-        resultado_lexico = analizar(operacion_preprocesada)
-        mostrar_analisis_lexico(resultado_lexico)
+        operation = operation.rstrip()
+        preprocessed_operation = preprocess_input(operation)
+        result = eval(preprocessed_operation)
+        operation_result.set(result)
+        operation_entry.config(state='normal')
+        operation_entry.delete("1.0", tk.END)
+        operation_entry.insert(tk.END, str(result))
+        operation_entry.config(state='disabled')
+        lexical_result = analyze(preprocessed_operation)
+        show_lexical_analysis(lexical_result)
     except ZeroDivisionError:
-        messagebox.showerror("Error", "División por cero no está permitida.")
+        messagebox.showerror("Error", "Division by zero is not allowed.")
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
 
-def eliminar():
-    texto = entrada.get("1.0", 'end-2c')
-    entrada.delete("1.0", tk.END)
-    entrada.insert(tk.END, texto)
+def delete():
+    text = entry.get("1.0", 'end-2c')
+    entry.delete("1.0", tk.END)
+    entry.insert(tk.END, text)
 
-def limpiar():
-    entrada.delete("1.0", tk.END)
-    entrada_operacion.config(state='normal')
-    entrada_operacion.delete("1.0", tk.END)
-    entrada_operacion.config(state='disabled')
+def clear():
+    entry.delete("1.0", tk.END)
+    operation_entry.config(state='normal')
+    operation_entry.delete("1.0", tk.END)
+    operation_entry.config(state='disabled')
 
-def crear_boton(texto, comando):
-    return tk.Button(frame_calculadora, text=texto, command=comando, width=10, height=2 , font=('Helvetica', 10, 'bold'), bg='#4CAF50', fg='white')
+def create_button(text, command):
+    return tk.Button(calculator_frame, text=text, command=command, width=10, height=2 , font=('Helvetica', 10, 'bold'), bg='#4CAF50', fg='white')
 
-ventana = tk.Tk()
-ventana.title("Calculadora Léxica")
+window = tk.Tk()
+window.title("Lexical Calculator")
 
-ventana.geometry("440x375")
-ventana.resizable(0, 0)
+window.geometry("440x375")
+window.resizable(0, 0)
 
-frame_calculadora = tk.Frame(ventana)
-frame_calculadora.pack(expand=True)
+calculator_frame = tk.Frame(window)
+calculator_frame.pack(expand=True)
 
-resultado = tk.StringVar()
-entrada = tk.Text(frame_calculadora, height=2, width=30, font=('Helvetica', 18, 'bold'), state='normal', fg='black')
-entrada.grid(row=0, column=0, columnspan=7)
+result = tk.StringVar()
+entry = tk.Text(calculator_frame, height=2, width=30, font=('Helvetica', 18, 'bold'), state='normal', fg='black')
+entry.grid(row=0, column=0, columnspan=7)
 
-resultado_operacion = tk.StringVar()
-entrada_operacion = tk.Text(frame_calculadora, height=2, width=30, font=('Helvetica', 18, 'bold'), state='disabled', fg='green')
-entrada_operacion.grid(row=1, column=0, columnspan=7)
+operation_result = tk.StringVar()
+operation_entry = tk.Text(calculator_frame, height=2, width=30, font=('Helvetica', 18, 'bold'), state='disabled', fg='green')
+operation_entry.grid(row=1, column=0, columnspan=7)
 
-botones = [
+buttons = [
     ('C', 2, 0), ('Del', 2, 1), ('(', 2, 2), (')', 2, 3),
     ('7', 4, 0), ('8', 4, 1), ('9', 4, 2), ('+', 4, 3),
     ('4', 5, 0), ('5', 5, 1), ('6', 5, 2), ('-', 5, 3),
@@ -118,13 +118,13 @@ botones = [
     ('0', 7, 0), ('.', 7, 1), ('=', 7, 2), ('/', 7, 3),
 ]
 
-for (texto, fila, columna) in botones:
-    comando = lambda x=texto: entrada.insert(tk.END, x) if x != '=' else calcular(entrada.get("1.0", tk.END).rstrip())
-    if texto == "Del":
-        crear_boton(texto, eliminar).grid(row=fila, column=columna)
-    elif texto == "C":
-        crear_boton(texto, limpiar).grid(row=fila, column=columna)
+for (text, row, column) in buttons:
+    command = lambda x=text: entry.insert(tk.END, x) if x != '=' else calculate(entry.get("1.0", tk.END).rstrip())
+    if text == "Del":
+        create_button(text, delete).grid(row=row, column=column)
+    elif text == "C":
+        create_button(text, clear).grid(row=row, column=column)
     else:
-        crear_boton(texto, comando).grid(row=fila, column=columna)
+        create_button(text, command).grid(row=row, column=column)
 
-ventana.mainloop()
+window.mainloop()
